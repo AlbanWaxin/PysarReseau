@@ -1,8 +1,3 @@
-// mettre des #define pour chaque type d'info a envoyer (attribuer un numero)
-#include <stdio.h>
-
-// comment on met les coordonnées des trucs ???
-
 #define PELLE               0
 #define CONSTRUIRE_BAT      1
 #define EVOLUER_BAT         2

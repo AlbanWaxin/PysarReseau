@@ -27,7 +27,7 @@ WAXIN Alban's group.
 - [ ] envoyer de saves python <-> C : Guillaume
 - [ ] ajout de l'interface de connection : Alban
 - [ ] implémenter la classe échange dans le test : Hugo
-- [ ] insérer la classe échange dans PysarRéseau : ?
+- [ ] insérer la classe échange dans PysarReseau : ?
 - [ ] adapter le jeu à l'envoi et la reception de données : ?
 - [ ] donner un ordre au jeu depuis le C : ?
 - [ ] transcrire les principes du jeu en messages IPC (update to string, ...) : ?
