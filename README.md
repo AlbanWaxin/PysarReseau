@@ -24,7 +24,7 @@ WAXIN Alban's group.
 
 - [ ] ajout de fonctionnalités dans le jeu python : Junior
 - [ ] ajuster le systeme de communication de pc : Quentin
-- [ ] envoyer de saves python <-> C : Guillaume
+- [ ] envoyer des saves python <-> C : Guillaume
 - [ ] ajout de l'interface de connection : Alban
 - [ ] implémenter la classe échange dans le test : Hugo
 - [ ] insérer la classe échange dans PysarReseau : ?
