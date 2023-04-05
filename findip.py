@@ -19,3 +19,5 @@ def get_ip() :
     return ip
 
 get_ip()    #equivalent du ifconfig -a
+
+#deplacer ce fichier dans le bon dossier par la suite
