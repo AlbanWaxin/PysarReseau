@@ -42,8 +42,3 @@ WAXIN Alban's group.
 - [ ] 
 - [ ] 
 - [ ] 
-fonction qui calcule les points d'une pers
-fonction qui calcule les points pour tout le monde
-fonction qui ecrit un log (nom : score)
-fonction qui affiche les scores
-
