@@ -22,7 +22,10 @@ WAXIN Alban's group.
 
 ## TODO-LIST 
 
-- [ ] ajout de fonctionnalités dans le jeu python : Junior
+- [x] ajout de fonctionnalités dans le jeu python : Junior
+- [x] mapper les différents types d'échanges / interactions : Eloïse
+- [x] trouver l'ip de la machine en script python : Eloïse
+- [x] afficher à qui appartient quel batiment
 - [ ] ajuster le systeme de communication de pc : Quentin
 - [ ] envoyer des saves python <-> C : Guillaume
 - [ ] ajout de l'interface de connection : Alban
@@ -33,7 +36,6 @@ WAXIN Alban's group.
 - [ ] transcrire les principes du jeu en messages IPC (update to string, ...) : ?
 - [ ] afficher PysarReseau sur deux écrans/processus : ?
 - [ ] préparer la structure d'échange des messages (créer un protocole) : ?
-- [ ] mapper les différents types d'échanges / interactions : Eloïse
 - [ ] transmettre une evolution d'une partie à une autre : ?
 - [ ] partage de statistiques / ressources : ?
 - [ ] 
