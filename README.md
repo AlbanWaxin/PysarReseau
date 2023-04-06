@@ -27,7 +27,7 @@ WAXIN Alban's group.
 - [x] trouver l'ip de la machine en script python : Eloïse
 - [x] afficher à qui appartient quel batiment
 - [ ] ajuster le systeme de communication de pc : Quentin
-- [ ] envoyer des saves python <-> C : Guillaume
+- [x] envoyer des saves python <-> C : Guillaume
 - [ ] ajout de l'interface de connection : Alban
 - [ ] implémenter la classe échange dans le test : Hugo
 - [ ] insérer la classe échange dans PysarReseau : ?
@@ -41,4 +41,9 @@ WAXIN Alban's group.
 - [ ] 
 - [ ] 
 - [ ] 
-- [ ] 
+- [ ] definir stats (ce qui fait gegner ou perdre des points)
+fonction qui calcule les points d'une pers
+fonction qui calcule les points pour tout le monde
+fonction qui ecrit un log (nom : score)
+fonction qui affiche les scores
+
