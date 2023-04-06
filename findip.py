@@ -1,4 +1,5 @@
 import socket
+import socketserver
 from requests import get
 
 def get_ip_localhost() :
@@ -20,4 +21,10 @@ def get_ip() :
 
 get_ip()    #equivalent du ifconfig -a
 
-#deplacer ce fichier dans le bon dossier par la suite
+def get_free_port() :
+    with socketserver.TCPServer(("localhost", 0), None) as s:
+        free_port = s.server_address[1]
+        #print (free_port)
+        return free_port
+
+get_free_port()
