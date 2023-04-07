@@ -955,22 +955,22 @@ class Game:
             echanger.send(packet,True)
 
     #obtenir des statistiques pour chaque jouer
-    def get_score (self, building: buildings.Building):
-        number_of_buildings = 3
+    def get_score (self):
+        building = buildings.Building
+        number_of_buildings = 0
         score = 0
         
         for i in self.buildinglist:
-            number_of_buildings = i
+            number_of_buildings += 1
+            """"
             score = score + building.current_number_of_employees + building.structure_level*5 
             if (building.isBurning) :
                 score = score - 5
             if (building.is_functional) :
                 score = score + 10
-            
+            """
         
-        self.caesar_score = number_of_buildings
-        return self.caesar_score
-            
-        #state = (building.isBurning, building.isDestroyed,building.risk_level_dico["fire"],building.risk_level_dico["collapse"])
+        #self.caesar_score = number_of_buildings
+        return number_of_buildings
     
 
