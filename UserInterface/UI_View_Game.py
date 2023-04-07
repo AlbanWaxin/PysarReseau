@@ -330,7 +330,7 @@ class GameView(arcade.View):
         else:
             self.name = self.game.name
 
-        self.score_text=text.Sprite_sentence("Score: " +str(self.game.caesar_score),"white",(20,20))
+        self.score_text=text.Sprite_sentence("Score: " +str(self.game.get_score()),"white",(20,20))
         self.money_text=text.Sprite_sentence("Dn: " +str(self.game.money),"white",(205,constantes.DEFAULT_SCREEN_HEIGHT-self.bar.image.size[1]/4))
         self.fps_text=text.Sprite_sentence( str(self.speed_ratio) + "%","black",(constantes.DEFAULT_SCREEN_WIDTH -162 + 85,constantes.DEFAULT_SCREEN_HEIGHT - self.bar.image.size[1] - constantes.DEFAULT_SCREEN_HEIGHT/2 +10))
         self.population_text=text.Sprite_sentence("Pop :"+ str(constantes.WALKER_UNIT*len(self.game.walkersAll)),"white",(505,constantes.DEFAULT_SCREEN_HEIGHT - self.bar.image.size[1]/4))
@@ -521,7 +521,7 @@ class GameView(arcade.View):
             self.move_map_camera_with_keys()
             self.visualmap.update_walker_list(self.game.walkersOut)
 
-            self.score_text = text.Sprite_sentence("Score: " +str(self.game.caesar_score),"white",(20,20))
+            self.score_text = text.Sprite_sentence("Score: " +str(self.game.get_score()),"white",(20,20))
             self.money_text = text.Sprite_sentence("Dn: " +str(self.game.money),"white",(320-(len(self.money_text.sentence)+5) * constantes.FONT_WIDTH/4,constantes.DEFAULT_SCREEN_HEIGHT-self.bar.image.size[1]/4))
             self.fps_text=text.Sprite_sentence( str(self.speed_ratio) + "%","black",(constantes.DEFAULT_SCREEN_WIDTH -162 + 85,constantes.DEFAULT_SCREEN_HEIGHT - self.bar.image.size[1] - constantes.DEFAULT_SCREEN_HEIGHT/2 +10))
             self.population_text=text.Sprite_sentence("Pop :"+ str(constantes.WALKER_UNIT*len(self.game.walkersAll)),"white",(505 - (len(self.population_text.sentence)),constantes.DEFAULT_SCREEN_HEIGHT - self.bar.image.size[1]/4))
