@@ -33,7 +33,7 @@ class Game:
         self.potery = 0
         self.likeability = 0
         self.gods_favors = [0, 0, 0, 0, 0]
-        self.caesar_score = 0
+        self.caesar_score = 0   #score affiché
         self.unemployement = 0
         self.isPaused = False
         self.buildinglist = []
@@ -152,6 +152,7 @@ class Game:
 
     def print_building_list(self):
         for b in self.buildinglist:
+
             print(b.dic['version'])
 
     def update_supply_requirements_with_structure_range(self, of_what: 'water' or 'food' or 'temple' or 'education'
@@ -951,4 +952,25 @@ class Game:
 
     def send_update_packets(self, packets):
         for packet in packets:
-            echanger.send(packet, True)
+            echanger.send(packet,True)
+
+    #obtenir des statistiques pour chaque jouer
+    def get_score (self, building: buildings.Building):
+        number_of_buildings = 3
+        score = 0
+        
+        for i in self.buildinglist:
+            number_of_buildings = i
+            score = score + building.current_number_of_employees + building.structure_level*5 
+            if (building.isBurning) :
+                score = score - 5
+            if (building.is_functional) :
+                score = score + 10
+            
+        
+        self.caesar_score = number_of_buildings
+        return self.caesar_score
+            
+        #state = (building.isBurning, building.isDestroyed,building.risk_level_dico["fire"],building.risk_level_dico["collapse"])
+    
+
