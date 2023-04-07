@@ -31,17 +31,17 @@ WAXIN Alban's group.
 - [ ] ajout de l'interface de connection : Alban
 - [ ] implémenter la classe échange dans le test : Hugo
 - [ ] insérer la classe échange dans PysarReseau : ?
-- [ ] adapter le jeu à l'envoi et la reception de données : ?
+- [ ] adapter le jeu à l'envoi et la reception de données : Alban & Hugo
 - [ ] donner un ordre au jeu depuis le C : ?
 - [ ] transcrire les principes du jeu en messages IPC (update to string, ...) : ?
 - [ ] afficher PysarReseau sur deux écrans/processus : ?
 - [ ] préparer la structure d'échange des messages (créer un protocole) : ?
 - [ ] transmettre une evolution d'une partie à une autre : ?
-- [ ] partage de statistiques / ressources : ?
+- [ ] partage de statistiques / ressources : Eloïse
 - [ ] 
 - [ ] 
 - [ ] 
-- [ ] definir stats (ce qui fait gegner ou perdre des points)
+- [ ] 
 fonction qui calcule les points d'une pers
 fonction qui calcule les points pour tout le monde
 fonction qui ecrit un log (nom : score)

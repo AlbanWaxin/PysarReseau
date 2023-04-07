@@ -206,6 +206,7 @@ class GameView(arcade.View):
                                         order=["title_zone", "image_zone", "carved_text_zone", "button_zone"])
         self.automatic_pop_up = self.fire_Pop_up
         self.actual_pop_up = self.fire_Pop_up
+        self.score_text = None
         self.money_text = None
         self.fps_text = None
         buttons_render = UI_buttons.buttons
@@ -272,6 +273,7 @@ class GameView(arcade.View):
                                                constantes.TILE_COUNT-7),name = self.name, game_view= self)
         else :
             self.name = self.game.name
+        self.score_text=text.Sprite_sentence("Score: " +str(self.game.caesar_score),"white",(20,20))
         self.money_text=text.Sprite_sentence("Dn: " +str(self.game.money),"white",(205,constantes.DEFAULT_SCREEN_HEIGHT-self.bar.image.size[1]/4))
         self.fps_text=text.Sprite_sentence( str(self.speed_ratio) + "%","black",(constantes.DEFAULT_SCREEN_WIDTH -162 + 85,constantes.DEFAULT_SCREEN_HEIGHT - self.bar.image.size[1] - constantes.DEFAULT_SCREEN_HEIGHT/2 +10))
         self.population_text=text.Sprite_sentence("Pop :"+ str(constantes.WALKER_UNIT*len(self.game.walkersAll)),"white",(505,constantes.DEFAULT_SCREEN_HEIGHT - self.bar.image.size[1]/4))
@@ -380,6 +382,7 @@ class GameView(arcade.View):
                                       )
         arcade.draw_texture_rectangle(center_x=constantes.DEFAULT_SCREEN_WIDTH - 81,center_y=constantes.DEFAULT_SCREEN_HEIGHT - self.bar.image.size[1] - constantes.DEFAULT_SCREEN_HEIGHT/2-23 -50 ,width=162,height=200,texture=arcade.load_texture(constantes.SPRITE_PATH + "Panel/panel46.png"))
         arcade.draw_texture_rectangle(center_x=constantes.DEFAULT_SCREEN_WIDTH - 81,center_y=constantes.DEFAULT_SCREEN_HEIGHT - self.bar.image.size[1] - constantes.DEFAULT_SCREEN_HEIGHT/2-23 -50 -200 ,width=162,height=200,texture=arcade.load_texture(constantes.SPRITE_PATH + "Map_panels/map_panels_00002.png"))
+        self.score_text.draw_()
         self.money_text.draw_()
         self.fps_text.draw_()
         self.population_text.draw_()
@@ -452,6 +455,7 @@ class GameView(arcade.View):
 
             self.move_map_camera_with_keys()
             self.visualmap.update_walker_list(self.game.walkersOut)
+            self.score_text = text.Sprite_sentence("Score: " +str(self.game.caesar_score),"white",(20,20))
             self.money_text = text.Sprite_sentence("Dn: " +str(self.game.money),"white",(320-(len(self.money_text.sentence)+5) * constantes.FONT_WIDTH/4,constantes.DEFAULT_SCREEN_HEIGHT-self.bar.image.size[1]/4))
             self.fps_text=text.Sprite_sentence( str(self.speed_ratio) + "%","black",(constantes.DEFAULT_SCREEN_WIDTH -162 + 85,constantes.DEFAULT_SCREEN_HEIGHT - self.bar.image.size[1] - constantes.DEFAULT_SCREEN_HEIGHT/2 +10))
             self.population_text=text.Sprite_sentence("Pop :"+ str(constantes.WALKER_UNIT*len(self.game.walkersAll)),"white",(505 - (len(self.population_text.sentence)),constantes.DEFAULT_SCREEN_HEIGHT - self.bar.image.size[1]/4))
