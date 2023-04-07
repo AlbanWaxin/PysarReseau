@@ -152,12 +152,10 @@ class Game:
 
     def print_building_list(self):
         for b in self.buildinglist:
+            print(b.dic['version']) 
 
-            print(b.dic['version'])
-
-    def update_supply_requirements_with_structure_range(self, of_what: 'water' or 'food' or 'temple' or 'education'
-                                                                       or 'fountain' or 'basic_entertainment' or 'pottery' or 'bathhouse',
-                                                        spec_building):
+    def update_supply_requirements(self, of_what: 'water' or 'food' or 'temple' or 'education' or 'fountain' or
+                                         'basic_entertainment' or 'pottery' or 'bathhouse'):
         """
         This functions searches for supply structures on the map and for each one look for dwell within the range of
         the structure. If the dwell required a structure of this type, then its position will be added to the list of
