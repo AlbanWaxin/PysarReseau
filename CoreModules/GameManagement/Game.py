@@ -956,21 +956,22 @@ class Game:
 
     #obtenir des statistiques pour chaque jouer
     def get_score (self):
-        building = buildings.Building
-        number_of_buildings = 0
         score = 0
-        
-        for i in self.buildinglist:
-            number_of_buildings += 1
-            """"
-            score = score + building.current_number_of_employees + building.structure_level*5 
-            if (building.isBurning) :
-                score = score - 5
-            if (building.is_functional) :
-                score = score + 10
-            """
-        
-        #self.caesar_score = number_of_buildings
-        return number_of_buildings
+        for building in self.buildinglist:  # pour chaque bat existant
+            
+            if (building.is_functional) :   # chaque bat fonctionnel
+                score += 10
+            if (building.isDestroyed):      # -10pts par destruction
+                score -= 10
+            if (building.isBurning) :       # -5pts si ca brule
+                score -= 5
+            if (building.dic['version'] == "dwell"):   #si c'est une maison (car sinon pb avec prefecture)
+                score += (building.structure_level) * 5  # niveau 1 (+5) ; niveau 2 (+10) 
+            else : score += 20  #si c'est un autre bat : +20
+
+            score += building.current_number_of_employees
+            
+        self.caesar_score = score
+        return self.caesar_score
     
 
