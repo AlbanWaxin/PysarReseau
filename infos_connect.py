@@ -1,3 +1,5 @@
+#ficher a mettre dans le bon dossier par la suite
+
 import socket
 import socketserver
 from requests import get

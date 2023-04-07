@@ -12,6 +12,7 @@ DELTA_TIME = 0.2666666
 
 class Building(element.Element):
     def __init__(self, buildings_layer, _type, version="dwell"):
+
         self.risk_dico = {"fire" : 0, "collapse" : 0}
         self.risk_level_dico = {"fire": 0, "collapse" : 0}
 
@@ -72,9 +73,9 @@ class Building(element.Element):
 
     def set_functional(self, value: bool):
         if value and not self.functional:
-            if self.dic["version"] not in ["ares_temple", "mars_temple", "mercury_temple", "neptune_temple",
-                                           "venus_temple",
-                                           "military_academy"]:
+
+            if self.dic["version"] not in ["ares_temple","mars_temple","mercury_temple","neptune_temple","venus_temple"]:
+
                 self.update_level("stat_inc")
             self.functional = True
             return True
