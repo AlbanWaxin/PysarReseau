@@ -13,9 +13,6 @@ DELTA_TIME = 0.2666666
 class Building(element.Element):
     def __init__(self, buildings_layer, _type, version="dwell"):
 
-        #pour attribuer un score à chaque batiment
-        self.building_score = 0
-
         self.risk_dico = {"fire" : 0, "collapse" : 0}
         self.risk_level_dico = {"fire": 0, "collapse" : 0}
 
