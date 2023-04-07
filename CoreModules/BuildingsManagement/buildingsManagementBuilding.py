@@ -73,13 +73,8 @@ class Building(element.Element):
 
     def set_functional(self, value: bool):
         if value and not self.functional:
-<<<<<<< HEAD
 
             if self.dic["version"] not in ["ares_temple","mars_temple","mercury_temple","neptune_temple","venus_temple"]:
-
-=======
-            if self.dic["version"] not in ["ares_temple","mars_temple","mercury_temple","neptune_temple","venus_temple"]:
->>>>>>> 9a6d135641e7a5201b153633ae882b2efa1dff46
                 self.update_level("stat_inc")
             self.functional = True
             return True

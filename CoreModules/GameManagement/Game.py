@@ -148,19 +148,10 @@ class Game:
 
     def print_building_list(self):
         for b in self.buildinglist:
-<<<<<<< HEAD
-
-            print(b.dic['version'])
-
-    def update_supply_requirements_with_structure_range(self, of_what: 'water' or 'food' or 'temple' or 'education'
-                                                                       or 'fountain' or 'basic_entertainment' or 'pottery' or 'bathhouse',
-                                                        spec_building):
-=======
             print(b.dic['version']) 
 
     def update_supply_requirements(self, of_what: 'water' or 'food' or 'temple' or 'education' or 'fountain' or
                                          'basic_entertainment' or 'pottery' or 'bathhouse'):
->>>>>>> 9a6d135641e7a5201b153633ae882b2efa1dff46
         """
         This functions searches for supply structures on the map and for each one look for dwell within the range of
         the structure. If the dwell required a structure of this type, then its position will be added to the list of
@@ -869,7 +860,6 @@ class Game:
                 prefets.append(walker)
         return prefets
     
-<<<<<<< HEAD
     def include_incoming_packets(self, packets,update):
         for packet in packets:
             pass
@@ -879,8 +869,6 @@ class Game:
         for packet in packets:
             echanger.send(packet,True)
 
-=======
->>>>>>> 9a6d135641e7a5201b153633ae882b2efa1dff46
     #obtenir des statistiques pour chaque jouer
     def get_score (self):
         score = 0
