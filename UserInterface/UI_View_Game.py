@@ -329,7 +329,10 @@ class GameView(arcade.View):
                                                constantes.TILE_COUNT - 7), name=self.name, owner_id=(ip, port))
         else:
             self.name = self.game.name
+<<<<<<< HEAD
 
+=======
+>>>>>>> 9a6d135641e7a5201b153633ae882b2efa1dff46
         self.score_text=text.Sprite_sentence("Score: " +str(self.game.get_score()),"white",(20,20))
         self.money_text=text.Sprite_sentence("Dn: " +str(self.game.money),"white",(205,constantes.DEFAULT_SCREEN_HEIGHT-self.bar.image.size[1]/4))
         self.fps_text=text.Sprite_sentence( str(self.speed_ratio) + "%","black",(constantes.DEFAULT_SCREEN_WIDTH -162 + 85,constantes.DEFAULT_SCREEN_HEIGHT - self.bar.image.size[1] - constantes.DEFAULT_SCREEN_HEIGHT/2 +10))
@@ -520,7 +523,10 @@ class GameView(arcade.View):
 
             self.move_map_camera_with_keys()
             self.visualmap.update_walker_list(self.game.walkersOut)
+<<<<<<< HEAD
 
+=======
+>>>>>>> 9a6d135641e7a5201b153633ae882b2efa1dff46
             self.score_text = text.Sprite_sentence("Score: " +str(self.game.get_score()),"white",(20,20))
             self.money_text = text.Sprite_sentence("Dn: " +str(self.game.money),"white",(320-(len(self.money_text.sentence)+5) * constantes.FONT_WIDTH/4,constantes.DEFAULT_SCREEN_HEIGHT-self.bar.image.size[1]/4))
             self.fps_text=text.Sprite_sentence( str(self.speed_ratio) + "%","black",(constantes.DEFAULT_SCREEN_WIDTH -162 + 85,constantes.DEFAULT_SCREEN_HEIGHT - self.bar.image.size[1] - constantes.DEFAULT_SCREEN_HEIGHT/2 +10))
