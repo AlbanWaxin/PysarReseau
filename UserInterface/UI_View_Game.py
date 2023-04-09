@@ -334,6 +334,9 @@ class GameView(arcade.View):
         self.fps_text=text.Sprite_sentence( str(self.speed_ratio) + "%","black",(constantes.DEFAULT_SCREEN_WIDTH -162 + 85,constantes.DEFAULT_SCREEN_HEIGHT - self.bar.image.size[1] - constantes.DEFAULT_SCREEN_HEIGHT/2 +10))
         self.population_text=text.Sprite_sentence("Pop :"+ str(constantes.WALKER_UNIT*len(self.game.walkersAll)),"white",(505,constantes.DEFAULT_SCREEN_HEIGHT - self.bar.image.size[1]/4))
         self.fps_text2=text.Sprite_sentence("Pop :"+ str(self.game.framerate),"white",(605 - (len(self.population_text.sentence)),constantes.DEFAULT_SCREEN_HEIGHT - self.bar.image.size[1]/4))
+        self.food_qty_text = text.Sprite_sentence(f"Your town has {self.game.update_food_qty()} lots of food", "black",
+                                                  (constantes.DEFAULT_SCREEN_WIDTH - len(self.fps_text2.sentence),
+                                                   constantes.DEFAULT_SCREEN_HEIGHT - self.bar.image.size[1] / 4))
 
         self.visualmap.setup(self.game)
         self.center_map()
