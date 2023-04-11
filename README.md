@@ -37,9 +37,8 @@ WAXIN Alban's group.
 - [ ] afficher PysarReseau sur deux écrans/processus : ?
 - [ ] préparer la structure d'échange des messages (créer un protocole) : ?
 - [ ] transmettre une evolution d'une partie à une autre : ?
-- [ ] partage de statistiques / ressources : Eloïse
+- [x] partage de statistiques / ressources à plusieurs joueurs + affichage : Eloïse
 - [ ] 
 - [ ] 
 - [ ] 
 - [ ] 
-
