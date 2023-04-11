@@ -4,5 +4,6 @@
     "*.embeddedhtml": "html",
     "unistd.h": "c",
     "mq.h": "c"
-  }
+  },
+  "editor.formatOnSave": false
 }

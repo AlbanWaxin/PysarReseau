@@ -927,7 +927,7 @@ class Game:
                     if building and isinstance(building, buildings.Building):
                         if not (building.isBurning or building.isDestroyed):
                             building.isDestroyed = True
-            elif packet.type in [PacketTypes.Init,PacketTypes.Broacast_new_player,PacketTypes.Send_IP,PacketTypes.Ask_Broadcast,PacketTypes.Sauvegarde_ask]:
+            elif packet.type in [PacketTypes.Init,PacketTypes.Broacast_new_player,PacketTypes.Send_IP,PacketTypes.Ask_Broadcast,PacketTypes.Sauvegarde_ask,PacketTypes.Ask_Deco]:
                 Adress,port = decode_login_packets(packet)
                 match packet.type:
                     case PacketTypes.Init:
@@ -951,6 +951,21 @@ class Game:
                         saveLoad.save_game(self, "to-send")
                         p = Packet(b"", port, self.owner[0], Adress,PacketTypes.Sauvegarde_send)
                         echanger.send(p,True)
+                    case PacketTypes.Ask_Deco:
+                        a = filter(
+                            lambda x: x != x[0] != (Adress,port) ,
+                            self.players,
+                        )
+                        self.players = list(a)
+                        self.mq.send(
+                            Packet(
+                                packet.body,
+                                port,
+                                self.owner[0],
+                                Adress,
+                                11,
+                            )
+                        )
             elif packet.type in [PacketTypes.Ajouter,PacketTypes.Supprimer,PacketTypes.Ajout_Route,PacketTypes.Suppr_Route]:
                 ponctual_data = decode_ponctual_packets(packet)
                 match packet.type:
@@ -975,3 +990,6 @@ class Game:
     def send_update_packets(self, packets):
         for packet in packets:
             echanger.send(packet, True)
+
+    def disconnectPlayer(self):
+        echanger.send(Packet(struct.pack("IH", Packet.intAddressFromAdress(self.owner[0]), self.owner[1]),0,self.owner[0],"255.255.255.255",packetType=PacketTypes.Ask_Deco))

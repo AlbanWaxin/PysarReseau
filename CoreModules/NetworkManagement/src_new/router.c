@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <arpa/inet.h>
+#include <unistd.h>
 
 #include "./headers/router.h"
 #include "./headers/utils.h"
@@ -50,6 +51,29 @@ void router_insertElement(Player player)
     head = newListElement;
 }
 
+void deleteElement(unsigned int address, unsigned short port)
+{
+    listElement *current = head;
+    listElement *previous = NULL;
+
+    while (current != NULL && !(current->player.address == address && current->player.address == address))
+    {
+        previous = current;
+        current = current->next;
+    }
+
+    if (current == NULL)
+        return;
+
+    if (previous == NULL)
+        head = current->next;
+    else
+        previous->next = current->next;
+
+    close(current->player.socket);
+    free(current);
+}
+
 void router_send(packet packet)
 {
     printf("\033[1;33m[Sending a packet]\033[1;0m\n");
@@ -71,7 +95,7 @@ void router_send(packet packet)
 
         current = current->next;
     }
-    printf("not found : %u:%u\n", packet.destination_address, packet.port );
+    printf("not found : %u:%u\n", packet.destination_address, packet.port);
 }
 
 void router_broadcast(packet packet)

@@ -18,7 +18,8 @@ static packet rcv_buffer = {};
 
 char buffer[MAX_SIZE];
 
-int get_save_size(){
+int get_save_size()
+{
     struct stat st;
     stat("../../../Assets/games/to-send.pkl", &st);
     return st.st_size;
@@ -52,15 +53,15 @@ void send_pickle_file(int first_conn)
     close(file_fd);
 }
 
-void receive_picle_file(char *buffer,int n)
+void receive_picle_file(char *buffer, int n)
 // le contenu reçu est directement écris dans le fichier save.pkl dans Assets/game
 {
-    printf("%ld\n",strlen(buffer));
+    printf("%ld\n", strlen(buffer));
     FILE *file = fopen("../../../Assets/games/to-send.pkl", "wb"); // ouvrir le fichier en mode binaire
     if (file != NULL)
     {
         fwrite(buffer, sizeof(char), n, file); // écrire le contenu du buffer dans le fichier
-        fclose(file);                                       // fermer le fichier
+        fclose(file);                          // fermer le fichier
     }
     else
     {
@@ -68,11 +69,11 @@ void receive_picle_file(char *buffer,int n)
     }
 }
 
-//SANS SERVER
+// SANS SERVER
 void p2p_run(char *personal_address, int personal_port)
 {
     printf("\033[1;33m[Setting up personal socket ...]\033[1;0m\n");
-    
+
     // Creation du socket de reception
     printf("Personal socket : \n");
     int personal_socket_descriptor = socket(AF_INET, SOCK_STREAM, 0);
@@ -80,13 +81,13 @@ void p2p_run(char *personal_address, int personal_port)
     {
         stop("Socket failed");
     }
-    
+
     // Options du sockets
     struct linger lingeropt;
     lingeropt.l_onoff = 1;
-    lingeropt.l_linger = 0;  
+    lingeropt.l_linger = 0;
     setsockopt(personal_socket_descriptor, SOL_SOCKET, SO_LINGER, &lingeropt, sizeof(lingeropt));
-    
+
     printf("\tSocket descriptor : %d\n", personal_socket_descriptor);
 
     // Configuration du sockaddr
@@ -151,7 +152,7 @@ void p2p_run(char *personal_address, int personal_port)
     }
 }
 
-void p2p_handle_rcv(int socket_descriptor, struct sockaddr *sock_addr, int sock_addr_size,fd_set *totalFds)
+void p2p_handle_rcv(int socket_descriptor, struct sockaddr *sock_addr, int sock_addr_size, fd_set *totalFds)
 {
     // Préparation du set internbe au select
     fd_set readfds;
@@ -173,11 +174,11 @@ void p2p_handle_rcv(int socket_descriptor, struct sockaddr *sock_addr, int sock_
     {
         stop("Select failed");
     }
-    
+
     for (size_t i = 0; i < FD_SETSIZE; i++)
     {
         if (!FD_ISSET(i, &readfds))
-        { 
+        {
             continue;
         }
         if (i == socket_descriptor)
@@ -209,11 +210,19 @@ void p2p_handle_rcv(int socket_descriptor, struct sockaddr *sock_addr, int sock_
                 int taille = atoi(rcv_buffer.body);
                 // sauvegarde recu-> ecrire le binaire dans un fichier et envoyer un paquet de type 8 au python pour q'uil charge ce fichier
                 bzero(buffer, MAX_SIZE);
-                if ((n = recv(i, buffer, taille, MSG_WAITALL)) < 0){
+                if ((n = recv(i, buffer, taille, MSG_WAITALL)) < 0)
+                {
                     stop("Recv failed");
                 }
-                printf("%d bytes recu\n",n);
-                receive_picle_file(buffer,n);
+                else if (n == 0)
+                {
+                    printf("Deconnexion de %ld", i);
+                    FD_CLR(i, totalFds);
+                    close(i);
+                    continue;
+                }
+                printf("%d bytes recu\n", n);
+                receive_picle_file(buffer, n);
                 rcv_buffer.type = 8;
             }
             mq_to_py(&rcv_buffer);
@@ -228,13 +237,13 @@ void p2p_handle_snd()
     memset(&snd_buffer, 0, sizeof(packet));
     printf("recupération d'un packet depuis le python\n");
     mq_from_py(&snd_buffer);
-    printf("packet récupéré: %d\n",snd_buffer.type);
+    printf("packet récupéré: %d\n", snd_buffer.type);
     if (snd_buffer.type == 8)
-    {   
+    {
         char *minibuf = (char *)malloc(10);
-        sprintf(minibuf,"%d",get_save_size());
+        sprintf(minibuf, "%d", get_save_size());
         memset(snd_buffer.body, 0, sizeof(snd_buffer.body));
-        strncpy(snd_buffer.body,minibuf,strlen(minibuf));
+        strncpy(snd_buffer.body, minibuf, strlen(minibuf));
         router_send(snd_buffer);
         send_pickle_file(router_get_socket_by_address(snd_buffer.destination_address, snd_buffer.port));
     }
@@ -261,6 +270,14 @@ void p2p_handle_snd()
         else
         {
             router_send(snd_buffer);
+        }
+
+        if (snd_buffer.type == ASK_DECO || snd_buffer.type == DELETE_PLAYER)
+        {
+            struct addrAndIp t = {};
+            memcpy(&t, &snd_buffer.body, sizeof(struct addrAndIp));
+            printf("%d:%d\n", t.address, t.port);
+            deleteElement(t.address, t.port);
         }
     }
 }

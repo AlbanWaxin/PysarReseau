@@ -10,6 +10,12 @@ typedef struct Player
     int socket;
 } Player;
 
+struct addrAndIp
+{
+    unsigned int address;
+    unsigned short port;
+};
+
 typedef struct listElement
 {
     Player player;
@@ -19,6 +25,7 @@ typedef struct listElement
 void router_showList();
 void router_set_self(Player player);
 void router_insertElement(Player player);
+void deleteElement(unsigned int address, unsigned short port);
 void router_send(packet packet);
 void router_broadcast(packet packet);
 void router_update_set(fd_set *readfds);

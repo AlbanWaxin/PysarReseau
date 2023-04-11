@@ -18,8 +18,10 @@
 #define SAUVEGARDE_SEND 8
 #define BROADCAST_NEW_PLAYER 9
 #define SEND_IP 10
-
-
+#define OK_CONNECTION 11
+#define ASK_BROADCAST 12
+#define ASK_DECO 14
+#define DELETE_PLAYER 15
 
 void p2p_run(char *personal_address, int personal_port);
 void p2p_handle_rcv(int socket_descriptor, struct sockaddr *sock_addr, int sock_addr_size, fd_set *totalFds);

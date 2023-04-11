@@ -3,7 +3,6 @@ from enum import IntEnum, unique
 from functools import reduce
 from typing import Tuple, Union
 
-
 import sysv_ipc
 
 from CoreModules.GameManagement.Update import LogicUpdate
@@ -33,6 +32,8 @@ class PacketTypes(IntEnum):
     Send_IP = 10
     Ok_Connection = 11
     Ask_Broadcast = 12
+    Ask_Deco = 14
+    Delete_Player = 15
 
 
 class Packet:
@@ -73,11 +74,11 @@ class Packet:
         )
 
     @classmethod
-    def unpack(cls, data: Union[bytearray, bytes]):#-> Paquet
+    def unpack(cls, data: Union[bytearray, bytes]):  # -> Paquet
         """
         Unpack data into a Packet object.
         : data is the binary data to unpack.
-        
+
         """
         (
             packetType,
@@ -95,7 +96,7 @@ class Packet:
             packetType,
         )
 
-    def generalPack(self, *data):#-> Binary data
+    def generalPack(self, *data):  # -> Binary data
         return struct.pack(
             self.binPattern,
             self.type,
@@ -105,15 +106,16 @@ class Packet:
             *data,
         )
 
-    def pack(self):#-> Binary data
+    def pack(self):  # -> Binary data
         return self.generalPack(self.body)
 
 
-def encode_update_packets(update: LogicUpdate): #-> List[Packet]
+def encode_update_packets(update: LogicUpdate):  # -> List[Packet]
     """
     Return a list of Packets to send to the other players.
     A packet contains 512 data bytes, and can contains many single update informations.
     """
+
     def flatten(t):
         out = []
         if type(t) in [list, tuple]:
@@ -153,7 +155,13 @@ def encode_update_packets(update: LogicUpdate): #-> List[Packet]
 
         # TODO : generaliser l'adresse et le port
         packets.append(
-            Packet(bytearray(packetBody), 0, static.get_ip() , "255.255.255.255", packetType=PacketTypes.Update)
+            Packet(
+                bytearray(packetBody),
+                0,
+                static.get_ip(),
+                "255.255.255.255",
+                packetType=PacketTypes.Update,
+            )
         )
     return packets
 
@@ -161,7 +169,7 @@ def encode_update_packets(update: LogicUpdate): #-> List[Packet]
 def decode_update_packets(packet: Packet):
     update_dict = {
         1: [lambda x, y: (x, y), 2],
-        #2: [lambda x, y, z: ((x, y), z), 3],
+        # 2: [lambda x, y, z: ((x, y), z), 3],
         3: [lambda x, y: (x, y), 2],
     }
 
@@ -173,11 +181,13 @@ def decode_update_packets(packet: Packet):
 
     while body[cursor] in update_dict.keys():
         update_id = body[cursor]
-        assert 3>= update_id >= 0
+        assert 3 >= update_id >= 0
         update_factory, update_len = update_dict[update_id]
         cursor += 1
 
-        updates[update_id-1].append(update_factory(*body[cursor: cursor + update_len]))
+        updates[update_id - 1].append(
+            update_factory(*body[cursor : cursor + update_len])
+        )
         cursor += update_len
 
     return {
@@ -186,32 +196,33 @@ def decode_update_packets(packet: Packet):
         "collapsed": updates[2],
     }
 
+
 def decode_login_packets(packet: Packet):
     intAddress, port, *_ = struct.unpack("IH494x", packet.body)
     return Packet.addressFromIntAddress(intAddress), port
 
 
-
 def decode_ponctual_packets(packet: Packet):
-
     ponctual_dict = {
         1: [lambda x, y, z: ((x, y), z), 3],
         2: [lambda x, y: (x, y), 2],
         3: [lambda x, y: (x, y), 2],
         4: [lambda x, y, z: ((x, y), z), 3],
-        5: [lambda : None, 0],
-        8: [lambda : None, 0],
+        5: [lambda: None, 0],
+        8: [lambda: None, 0],
     }
     body = []
-    for hexa in range(len(packet.body)-2):
-        if int(packet.body[hexa]) == 0 and int(packet.body[hexa+1]) == 0:
+    for hexa in range(len(packet.body) - 2):
+        if int(packet.body[hexa]) == 0 and int(packet.body[hexa + 1]) == 0:
             break
         else:
             body.append(int(packet.body[hexa]))
-    #print(len(body), body)
-    assert len(
-        body) == ponctual_dict[packet.type][1], f"Packet {packet.type} has a wrong body length"
+    # print(len(body), body)
+    assert (
+        len(body) == ponctual_dict[packet.type][1]
+    ), f"Packet {packet.type} has a wrong body length"
     return ponctual_dict[packet.type][0](*body)
+
 
 class Echange:
     def __init__(self, mq_key_rcv: int, mq_key_snd: int, clear=False) -> None:
@@ -232,7 +243,7 @@ class Echange:
         except sysv_ipc.BusyError:
             print("The message queue is full")
 
-    def receive(self, type: Union[int,PacketTypes] = 0, block: bool = False):
+    def receive(self, type: Union[int, PacketTypes] = 0, block: bool = False):
         try:
             data, type = self.mq_rcv.receive(type=type, block=block)
             return Packet.unpack(data)
@@ -252,76 +263,78 @@ if __name__ == "__main__":
     print(p.pack())
     print(Packet.unpack(p.pack()))
 
-dict_demon={1: 'academy',
-            2: 'actor_colony',
-            3: 'aqueduct',
-            4: 'ares_temple', 
-            5: 'neptune_temple', 
-            6: 'mercury_temple', 
-            7: 'mars_temple', 
-            8: 'venus_temple', 
-            9: 'amphitheater', 
-            10: 'barber', 
-            11: 'normal_bath', 
-            12: 'barracks',
-            13: 'clay_pit', 
-            14: 'colosseum', 
-            15: 'dock', 
-            16: 'dwell', 
-            17: "engineer's_post", 
-            18: 'forum', 
-            19: 'fruit_farm', 
-            20: 'furniture_workshop', 
-            21: 'fort', 
-            22: 'fountain', 
-            23: 'garden', 
-            24: 'gladiator_school', 
-            25: 'gov_housing_house',
-            26: 'gov_housing_villa', 
-            27: 'gov_housing_palace', 
-            28: 'granary', 
-            29: 'hospital', 
-            30: 'iron_mine', 
-            31: 'library', 
-            32: 'lion_house', 
-            33: 'market', 
-            34: 'oil_mill', 
-            35: 'olive_farm', 
-            36: 'oracle', 
-            37: 'palace', 
-            38: 'perfumery', 
-            39: 'police_station', 
-            40: 'pottery', 
-            41: 'prefecture', 
-            42: "proconsul's_palace", 
-            43: "procurator's_palace", 
-            44: 'quarry', 
-            45: 'roadblock', 
-            46: 'rock_quarry', 
-            47: 'school', 
-            48: 'shipyard', 
-            49: 'smithy', 
-            50: 'statue', 
-            51: 'stone_mason', 
-            52: 'storage_yard', 
-            53: 'tax_office', 
-            54: 'teacher', 
-            55: 'temple_of_vesta', 
-            56: 'theater', 
-            57: 'timber_yard', 
-            58: 'toolmaker', 
-            59: 'townhouse', 
-            60: 'trading_post', 
-            61: 'trireme_shipyard', 
-            62: 'tunnel', 
-            63: 'university', 
-            64: 'vase_painter', 
-            65: 'vintner', 
-            66: 'wall',
-            67: 'wine_press',
-            68: 'workshop',
-            69: 'senate'
+dict_demon = {
+    1: "academy",
+    2: "actor_colony",
+    3: "aqueduct",
+    4: "ares_temple",
+    5: "neptune_temple",
+    6: "mercury_temple",
+    7: "mars_temple",
+    8: "venus_temple",
+    9: "amphitheater",
+    10: "barber",
+    11: "normal_bath",
+    12: "barracks",
+    13: "clay_pit",
+    14: "colosseum",
+    15: "dock",
+    16: "dwell",
+    17: "engineer's_post",
+    18: "forum",
+    19: "fruit_farm",
+    20: "furniture_workshop",
+    21: "fort",
+    22: "fountain",
+    23: "garden",
+    24: "gladiator_school",
+    25: "gov_housing_house",
+    26: "gov_housing_villa",
+    27: "gov_housing_palace",
+    28: "granary",
+    29: "hospital",
+    30: "iron_mine",
+    31: "library",
+    32: "lion_house",
+    33: "market",
+    34: "oil_mill",
+    35: "olive_farm",
+    36: "oracle",
+    37: "palace",
+    38: "perfumery",
+    39: "police_station",
+    40: "pottery",
+    41: "prefecture",
+    42: "proconsul's_palace",
+    43: "procurator's_palace",
+    44: "quarry",
+    45: "roadblock",
+    46: "rock_quarry",
+    47: "school",
+    48: "shipyard",
+    49: "smithy",
+    50: "statue",
+    51: "stone_mason",
+    52: "storage_yard",
+    53: "tax_office",
+    54: "teacher",
+    55: "temple_of_vesta",
+    56: "theater",
+    57: "timber_yard",
+    58: "toolmaker",
+    59: "townhouse",
+    60: "trading_post",
+    61: "trireme_shipyard",
+    62: "tunnel",
+    63: "university",
+    64: "vase_painter",
+    65: "vintner",
+    66: "wall",
+    67: "wine_press",
+    68: "workshop",
+    69: "senate",
 }
+
 
 def find_key(value, dict):
     for keys, values in dict.items():

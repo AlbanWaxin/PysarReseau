@@ -713,6 +713,7 @@ class GameView(arcade.View):
 
     def on_key_press(self, symbol: int, modifiers: int):
         if symbol == arcade.key.ESCAPE:
+            self.game.disconnectPlayer()
             arcade.exit()
         if symbol == arcade.key.UP:
             self.up_pressed = True
