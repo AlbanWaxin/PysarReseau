@@ -218,6 +218,7 @@ class GameView(arcade.View):
                                                   order=["title_zone", "image_zone", "carved_text_zone", "button_zone"])
         self.automatic_pop_up = self.fire_Pop_up
         self.actual_pop_up = self.fire_Pop_up
+        self.score_text = None
         self.money_text = None
         self.fps_text = None
         buttons_render = UI_buttons.buttons

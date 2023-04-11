@@ -26,10 +26,17 @@ WAXIN Alban's group.
 - [x] mapper les différents types d'échanges / interactions : Eloïse
 - [x] trouver l'ip de la machine en script python : Eloïse
 - [x] afficher à qui appartient quel batiment
+- [x] ajout de fonctionnalités dans le jeu python : Junior
+- [x] mapper les différents types d'échanges / interactions : Eloïse
+- [x] trouver l'ip de la machine en script python : Eloïse
+- [x] afficher à qui appartient quel batiment
 - [ ] ajuster le systeme de communication de pc : Quentin
+- [x] envoyer des saves python <-> C : Guillaume
 - [x] envoyer des saves python <-> C : Guillaume
 - [ ] ajout de l'interface de connection : Alban
 - [ ] implémenter la classe échange dans le test : Hugo
+- [ ] insérer la classe échange dans PysarReseau : ?
+- [ ] adapter le jeu à l'envoi et la reception de données : Alban & Hugo
 - [ ] insérer la classe échange dans PysarReseau : ?
 - [ ] adapter le jeu à l'envoi et la reception de données : Alban & Hugo
 - [ ] donner un ordre au jeu depuis le C : ?
@@ -38,7 +45,5 @@ WAXIN Alban's group.
 - [ ] préparer la structure d'échange des messages (créer un protocole) : ?
 - [ ] transmettre une evolution d'une partie à une autre : ?
 - [x] partage de statistiques / ressources à plusieurs joueurs + affichage : Eloïse
-- [ ] 
-- [ ] 
 - [ ] 
 - [ ] 
