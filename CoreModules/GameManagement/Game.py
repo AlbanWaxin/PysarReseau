@@ -33,7 +33,7 @@ class Game:
         self.potery = 0
         self.likeability = 0
         self.gods_favors = [0, 0, 0, 0, 0]
-        self.caesar_score = 0   #score affiché
+        self.caesar_score = (0, 0, 0, 0)   #(batiment, employees, food, money)
         self.unemployement = 0
         self.isPaused = False
         self.buildinglist = []
@@ -45,8 +45,7 @@ class Game:
         self.updated = []
         self.players = [["moi", (0, 0, 255)]]
 
-        self.players = [(self.owner, (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))),
-                        (('127.0.0.1', 1000), (255, 0, 0))]
+        self.players = [(self.owner, (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)))]
         # some lists of specific buildings
         self.dwelling_list = []
 
@@ -498,7 +497,7 @@ class Game:
                     new_status = walker.settle_in()
                     if new_status:
                         self.walkersAll.remove(walker)
-                        self.walkersAll.append(new_status), final=False
+                        self.walkersAll.append(new_status)
                         # we add a citizen as an unemployed
                         self.unemployedCitizens.append(new_status)
 
@@ -954,22 +953,25 @@ class Game:
 
     #obtenir des statistiques pour chaque jouer
     def get_score (self):
-        score = 0
+        score_batiment = 0
+        score_employees = 0
+        score_money = float(str(self.money/1000000)[0:3])
+        score_food = self.update_food_qty()
         for building in self.buildinglist:  # pour chaque bat existant
             
             if (building.is_functional) :   # chaque bat fonctionnel
-                score += 10
+                score_batiment += 10
             if (building.isDestroyed):      # -10pts par destruction
-                score -= 10
+                score_batiment -= 10
             if (building.isBurning) :       # -5pts si ca brule
-                score -= 5
+                score_batiment -= 5
             if (building.dic['version'] == "dwell"):   #si c'est une maison (car sinon pb avec prefecture)
-                score += (building.structure_level) * 5  # niveau 1 (+5) ; niveau 2 (+10) 
-            else : score += 20  #si c'est un autre bat : +20
+                score_batiment += (building.structure_level) * 5  # niveau 1 (+5) ; niveau 2 (+10) 
+            else : score_batiment += 20  #si c'est un autre bat : +20
 
-            score += building.current_number_of_employees
-            
-        self.caesar_score = score
+            score_employees += building.current_number_of_employees
+        
+        self.caesar_score = (score_batiment, score_employees, score_food, score_money)
         return self.caesar_score
     
 
