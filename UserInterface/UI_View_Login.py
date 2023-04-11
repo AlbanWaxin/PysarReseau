@@ -46,7 +46,7 @@ class ReseauLoginScreen(arcade.View):
             font_size=22,
             width=300,
             font_name="Arial",
-            text='192.168.1.158',
+            text='192.168.241.154',
         )
 
         self.first = arcade.gui.UIBoxLayout(vertical=False,
