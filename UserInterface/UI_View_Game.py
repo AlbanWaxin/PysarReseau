@@ -46,6 +46,21 @@ class GameView(arcade.View):
         self.game = None
         if _game:
             self.game = _game
+        self.chat_box = arcade.gui.UITextArea(x=0, y=75)
+        self.stock_message_chat = []
+        self.chat_box.text = ""
+        self.chat_box.readonly = True
+        self.chat_box.multiline = True
+        self.chat_box.font_size = 12
+        self.chat_box.width = 500
+        self.chat_box.height = 100
+        self.chat_box.background_color = arcade.color.LIGHT_CYAN
+        self.chat_input = arcade.gui.UIInputText(x=0, y=0, width=500, height=75)
+        self.chat
+        self.chat_manager = arcade.gui.UIManager()
+        self.chat_manager.add(self.chat_box)
+        self.chat_manager.add(self.chat_input)
+
 
         # =======================================
         # the game status (played or not)
@@ -746,7 +761,10 @@ class GameView(arcade.View):
             else:
                 self.is_paused = False
             self.count_pauses += 1
-
+        
+        elif symbol == arcade.key.DOLLAR:
+            self.game.disconnect()
+            arcade.exit()
         elif symbol == arcade.key.TAB:
             # Print statistics of players
             rows = []
@@ -1119,3 +1137,6 @@ class GameView(arcade.View):
         for briskcollapse in update.collapse_level_change:
             self.visualmap.update_one_sprite(layer=self.visualmap.buildings_layer, position=briskcollapse[0],
                                              update_type="risk_update", special_value=("collapse", briskcollapse[1]))
+    
+    def display_chat(self):
+        

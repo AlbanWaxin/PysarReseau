@@ -33,6 +33,7 @@ class PacketTypes(IntEnum):
     Send_IP = 10
     Ok_Connection = 11
     Ask_Broadcast = 12
+    Disconnect = 13
 
 
 class Packet:

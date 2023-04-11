@@ -25,6 +25,9 @@ void router_showList()
 
 int router_get_socket_by_address(unsigned int address, unsigned short port)
 {
+
+int router_get_socket_by_address(unsigned int address, unsigned short port)
+{
     listElement *current = head;
     while (current != NULL)
     {
@@ -94,4 +97,28 @@ void router_broadcast(packet packet)
     }
 
     printf("\033[1;32m[Broadcast end]\033[1;0m\n");
+}
+
+void router_remove_player(packet packet)
+{
+    listElement *current = head;
+    listElement *previous = NULL;
+    while (current != NULL)
+    {
+        if (current->player.address == packet.source_address && current->player.port == packet.port)
+        {
+            if (previous == NULL)
+            {
+                head = current->next;
+            }
+            else
+            {
+                previous->next = current->next;
+            }
+            free(current);
+            return;
+        }
+        previous = current;
+        current = current->next;
+    }
 }
