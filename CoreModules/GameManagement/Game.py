@@ -963,7 +963,7 @@ class Game:
                                 port,
                                 self.owner[0],
                                 Adress,
-                                11,
+                                PacketTypes.Delete_Player,
                             )
                         )
             elif packet.type in [PacketTypes.Ajouter,PacketTypes.Supprimer,PacketTypes.Ajout_Route,PacketTypes.Suppr_Route]:

@@ -272,14 +272,13 @@ void p2p_handle_snd()
             router_send(snd_buffer);
         }
 
-        if(snd_buffer.type == DELETE_PLAYER)
+        if(snd_buffer.type == DELETE_PLAYER || snd_buffer.type == ASK_DECO)
         {
             struct addrAndPort t = {};
             memcpy(&t, &snd_buffer.body, sizeof(struct addrAndPort));
             printf("%d:%d\n", t.address, t.port);
             deleteElement(t.address, t.port);
-        } else if (snd_buffer.type == ASK_DECO){
-            exit(0);
+
         }
     }
 }
