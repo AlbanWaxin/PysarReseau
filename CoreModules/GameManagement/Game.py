@@ -957,7 +957,7 @@ class Game:
                             self.players,
                         )
                         self.players = list(a)
-                        self.mq.send(
+                        echanger.send(
                             Packet(
                                 packet.body,
                                 port,
