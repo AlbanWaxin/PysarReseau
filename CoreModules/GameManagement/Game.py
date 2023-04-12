@@ -47,8 +47,7 @@ class Game:
 
         self.framerate = globalVar.DEFAULT_FPS
         self.updated = []
-        self.players = [(self.owner, (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))),
-                        (('127.0.0.1', 1000), (255, 0, 0))]
+        self.players = [(self.owner, (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)))]
         # some lists of specific buildings
         self.dwelling_list = []
 
