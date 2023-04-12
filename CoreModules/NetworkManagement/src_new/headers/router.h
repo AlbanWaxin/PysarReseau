@@ -10,7 +10,7 @@ typedef struct Player
     int socket;
 } Player;
 
-struct addrAndIp
+struct addrAndPort
 {
     unsigned int address;
     unsigned short port;

@@ -154,7 +154,7 @@ void p2p_run(char *personal_address, int personal_port)
 
 void p2p_handle_rcv(int socket_descriptor, struct sockaddr *sock_addr, int sock_addr_size, fd_set *totalFds)
 {
-    // Préparation du set internbe au select
+    // Préparation du set interne au select
     fd_set readfds;
     FD_ZERO(&readfds);
 
@@ -194,7 +194,7 @@ void p2p_handle_rcv(int socket_descriptor, struct sockaddr *sock_addr, int sock_
             printf("reception d'un packet\n");
             memset(&rcv_buffer, 0, sizeof(packet));
             bzero(buffer, MAX_SIZE);
-            if (recv(i, buffer, MAX_SIZE, 0) < 0)
+            if (recv(i, buffer, sizeof(packet), 0) < 0)
                 stop("Recv failed");
             memcpy(&rcv_buffer, buffer, sizeof(packet));
             printf("packet reçu: %d\n", rcv_buffer.type);
@@ -272,12 +272,14 @@ void p2p_handle_snd()
             router_send(snd_buffer);
         }
 
-        if (snd_buffer.type == ASK_DECO || snd_buffer.type == DELETE_PLAYER)
+        if(snd_buffer.type == DELETE_PLAYER)
         {
-            struct addrAndIp t = {};
-            memcpy(&t, &snd_buffer.body, sizeof(struct addrAndIp));
+            struct addrAndPort t = {};
+            memcpy(&t, &snd_buffer.body, sizeof(struct addrAndPort));
             printf("%d:%d\n", t.address, t.port);
             deleteElement(t.address, t.port);
+        } else if (snd_buffer.type == ASK_DECO){
+            exit(0);
         }
     }
 }
